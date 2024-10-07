@@ -37,3 +37,42 @@ To install the required packages, please run:
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Use FARM to Extract Molecule Embeddings for Target Dataset
+### Step 1: Clean Data
+To clean the dataset by removing invalid SMILES and converting SMILES to canonical SMILES, run the `(1)clean_smiles.py` script. This script requires two arguments:
+- `csv_data_path`: The path to the input CSV file containing SMILES.
+- `save_smiles_path`: The path to save the cleaned SMILES CSV file.
+**Example**:
+```bash
+python clean_smiles.py --csv_data_path path/to/input.csv --save_smiles_path path/to/cleaned_smiles.csv
+```
+*Note: The input CSV file must contain a column named "SMILES".*
+
+### Step 2: Generate FG-Enhanced SMILES
+To generate FG-enhanced SMILES, run the `gen_FG_enhanced_SMILES.py` script. This script requires:
+- `csv_path`: The path to the input CSV file containing molecule data.
+- `save_path`: The path to save the output pickle file.
+**Example**:
+```bash
+python gen_FG_enhanced_SMILES.py --csv_path path/to/cleaned_smiles.csv --save_path path/to/fg_enhanced_smiles.pkl
+```
+
+### Step 3: Download Model and Extract Molecular Embeddings
+To extract molecular embeddings for FG-enhanced SMILES, you can use the Hugging Face model. Here’s how to do it in Python:
+```python
+from transformers import BertForMaskedLM, PreTrainedTokenizerFast
+
+# Load the tokenizer and model
+tokenizer = PreTrainedTokenizerFast.from_pretrained('thaonguyen217/farm_molecular_representation')
+model = BertForMaskedLM.from_pretrained('thaonguyen217/farm_molecular_representation')
+
+# Example usage
+input_text = "N_primary_amine N_secondary_amine c_6-6 1 n_6-6 n_6-6 c_6-6 c_6-6 2 c_6-6 c_6-6 c_6-6 c_6-6 c_6-6 1 2"  # FG-enhanced representation of NNc1nncc2ccccc12
+inputs = tokenizer(input_text, return_tensors='pt')
+outputs = model(**inputs, output_hidden_states=True)
+
+# Extract atom embeddings from last hidden states
+last_hidden_states = outputs.hidden_states[-1][0]  # last_hidden_states: (N, 768) where N is the input length
+```
