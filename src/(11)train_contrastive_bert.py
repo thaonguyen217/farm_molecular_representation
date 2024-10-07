@@ -212,7 +212,7 @@ if __name__ == '__main__':
     # Add arguments for training corpus paths, validation corpus path, tokenizer path,
     # pretrained model path, and output directory
     parser.add_argument(
-        '--train_corpus_paths',
+        '--train_corpus_path',
         type=str,
         nargs='+',
         required=True,
@@ -234,7 +234,7 @@ if __name__ == '__main__':
         '--pretrained_model_path',
         type=str,
         required=True,
-        help='Path to the pretrained model.'
+        help='Path to the pretrained BERT model.'
     )
     parser.add_argument(
         '--output_dir',
@@ -247,4 +247,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Call the main function with parsed arguments
-    main(args.train_corpus_paths, args.val_corpus_path, args.tokenizer_path, args.pretrained_model_path, args.output_dir)
+    main(args.train_corpus_path, args.val_corpus_path, args.tokenizer_path, args.pretrained_model_path, args.output_dir)

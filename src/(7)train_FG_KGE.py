@@ -205,9 +205,9 @@ def train(FGKG_path, checkpoint, device, epochs=100, embedding_dim=128, lr=1e-3,
 if __name__ == "__main__":
     # Set up argument parser
     parser = argparse.ArgumentParser(description="Train a ComplEx model on a knowledge graph.")
-    parser.add_argument('FGKG_path', type=str, help="Path to save data of the FG knowledge graph (pkl file).")
+    parser.add_argument('FGKG_path', type=str, help="Path to the FG knowledge graph (pkl file).")
     parser.add_argument('checkpoint', type=str, help="Path to save model checkpoints.")
-    parser.add_argument('feature_dict_path', type=str, help="Path to save feature - KG embedding dictionary (pkl file).")
+    parser.add_argument('feature_dict_path', type=str, help="Path to save feature - FG_embedding dictionary (pkl file).")
     parser.add_argument('--epochs', type=int, default=100, help="Number of training epochs.")
     parser.add_argument('--embedding_dim', type=int, default=128, help="Dimension of the embeddings.")
     parser.add_argument('--lr', type=float, default=1e-3, help="Learning rate.")

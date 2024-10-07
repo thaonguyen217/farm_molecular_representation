@@ -55,10 +55,14 @@ def process_data(csv_path, save_path):
             with open(save_path, 'wb') as f:
                 pickle.dump(CORPUS, f)
     
-    # Save the final processed SMILES data
+    # Save the final processed SMILES data as pickle file for training BERT model or txt file for training tokenizer
     # Optionally, you can save labels by using a dictionary: data = {'X': CORPUS, 'y': LABEL}
     with open(save_path, 'wb') as f:
         pickle.dump(CORPUS, f)
+
+    txt = '\n'.join(CORPUS)
+    with open(save_path.replace('pkl', 'txt'), 'w') as f:
+        f.write(txt)
 
 if __name__ == '__main__':
     # Argument parser for running the script from the command line

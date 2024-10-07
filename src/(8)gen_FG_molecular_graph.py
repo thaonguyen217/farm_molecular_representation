@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Convert SMILES strings to FG graph and save them.")
     
     # Path to the input CSV file (with 'smiles' and 'p_np' columns)
-    parser.add_argument('csv_path', type=str, help='Path to the input CSV file (MoleculeNet dataset).')
+    parser.add_argument('csv_path', type=str, help='Path to the input CSV file storing SMILES.')
     
     # Path to the precomputed feature embeddings (as a pickle file)
     parser.add_argument('feature_path', type=str, help='Path to the KGE functional group embedding file (pickle).')

@@ -152,7 +152,7 @@ def train_model(data_path, checkpoint_path, atom_feature_dim=128, hidden_channel
 if __name__ == '__main__':
     # Set up argument parsing
     parser = argparse.ArgumentParser(description='Train Link Prediction Model')
-    parser.add_argument('--data_path', type=str, required=True, help='Path to the dataset file (pickle file).')
+    parser.add_argument('--data_path', type=str, required=True, help='Path to the FG molecular graph dataset (pickle file).')
     parser.add_argument('--checkpoint_path', type=str, required=True, help='Path to save model checkpoints.')
     parser.add_argument('--atom_feature_dim', type=int, default=128, help='Feature dimension for atoms.')
     parser.add_argument('--hidden_channels', type=int, default=128, help='Number of hidden channels for GNN.')
