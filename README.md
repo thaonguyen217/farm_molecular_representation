@@ -220,5 +220,16 @@ Run `(1)classifier.py` or `(2)regressor.py` with arguments:
 python classifier.py --train_path path/to/train.pkl --val_path path/to/val.pkl --test_path path/to/test.pkl --checkpoint_path path/to/save/checkpoint
 ```
 
+## References
+If you build upon or utilize our work, please cite the following paper:
+```
+@article{nguyen2024farm,
+  title={FARM: Functional Group-Aware Representations for Small Molecules},
+  author={Nguyen, Thao and Huang, Kuan-Hao and Liu, Ge and Burke, Martin D. and Diao, Ying and Ji, Heng},
+  journal={arXiv preprint arXiv:2410.02082},
+  year={2024}
+}
+```        
+
 ## Acknowledgments
 This research is based upon work supported by the Molecule Maker Lab Institute: an AI research institute program supported by NSF under award *No. 2019897*.
