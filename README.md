@@ -2,6 +2,13 @@
 Source code for the paper **FARM: Functional Group-Aware Representations for Small Molecules** [paper](https://arxiv.org/pdf/2410.02082) [webpage](https://thaonguyen217.github.io/farm/)
 ![FARM model](./images/main.jpg)
 
+# Table of Contents
+1. [Structure of the Repository](#structure-of-the-repository)
+1. [Installation](#installation)
+2. [Use FARM to Extract Molecule Embeddings for Target Dataset](#use-farm-to-extract-molecule-embeddings-for-target-dataset)
+3. [Train Baseline BERT Model from Scratch](#train-baseline-bert-model-from-scratch)
+4. [Train FARM from Scratch](#train-farm-from-scratch)
+
 ## Structure of the Repository
 
 The repository is organized into the following directories:
@@ -177,3 +184,6 @@ python gen_contrastive_learning_data.py --link_prediction_model path/to/link_pre
 - `tokenizer_path`: Path to the FM-enhanced SMILES tokenizer.
 - `pretrained_model_path`: Path to the pretrained BERT model (optional).
 - `output_dir`: Directory to save the output model and tokenizer.
+
+## Acknowledgments
+This research is based upon work supported by the Molecule Maker Lab Institute: an AI research institute program supported by NSF under award *No. 2019897*.
