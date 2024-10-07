@@ -1,5 +1,6 @@
 # FARM for Molecular Representaion
-Source code for the paper **FARM: Functional Group-Aware Representations for Small Molecules**
+Source code for the paper **FARM: Functional Group-Aware Representations for Small Molecules** [paper](https://arxiv.org/pdf/2410.02082) [webpage](https://thaonguyen217.github.io/farm/)
+![FARM model](images/main.png)
 
 ## Structure of the Repository
 
@@ -17,7 +18,7 @@ The repository is organized into the following directories:
   - `(2)regressor.py`: Script for training a regressor on molecular data.
 
 - **src/**: Contains the source code and utility scripts for processing molecular data and training models.
-  - `(0)helpers.py`: Helper functions for various tasks.
+  - `helpers.py`: Helper functions for various tasks.
   - `(1)clean_smiles.py`: Script for cleaning SMILES strings.
   - `(2)gen_FG_enhanced_SMILES.py`: Script for generating functional group enhanced SMILES.
   - `(3)train_tokenizer.py`: Script for training a tokenizer on molecular data.
