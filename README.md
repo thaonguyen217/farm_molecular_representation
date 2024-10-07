@@ -224,8 +224,8 @@ python classifier.py --train_path path/to/train.pkl --val_path path/to/val.pkl -
 If you build upon or utilize our work, please cite the following paper:
 ```
 @article{nguyen2024farm,
-  title={FARM: Functional Group-Aware Representations for Small Molecules},
-  author={Nguyen, Thao and Huang, Kuan-Hao and Liu, Ge and Burke, Martin D. and Diao, Ying and Ji, Heng},
+  title={{FARM}: Functional Group-Aware Representations for Small Molecules},
+  author={Thao Nguyen and Kuan-Hao Huang and Ge Liu and Martin D. Burke and Ying Diao and Heng Ji},
   journal={arXiv preprint arXiv:2410.02082},
   year={2024}
 }
