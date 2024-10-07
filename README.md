@@ -8,6 +8,7 @@ Source code for the paper **FARM: Functional Group-Aware Representations for Sma
 2. [Use FARM to Extract Molecule Embeddings for Target Dataset](#use-farm-to-extract-molecule-embeddings-for-target-dataset)
 3. [Train Baseline BERT Model from Scratch](#train-baseline-bert-model-from-scratch)
 4. [Train FARM from Scratch](#train-farm-from-scratch)
+5. [Downstream Task Finetuning](#downstream-task-finetuning)
 
 ## Structure of the Repository
 
@@ -19,7 +20,7 @@ The repository is organized into the following directories:
   - `download_big_corpus.py`: Script to download a large molecular corpus.
   - `download_small_corpus.py`: Script to download a smaller molecular corpus.
 
-- **downstream_tasks/**: Contains scripts for downstream tasks related to molecular representation.
+- **downstream_tasks/**: Contains scripts for downstream tasks that utilize FARM molecular representation.
   - `(0)scaffold_split.py`: Script for splitting data based on scaffolds.
   - `(1)classifier.py`: Script for training a classifier on molecular data.
   - `(2)regressor.py`: Script for training a regressor on molecular data.
@@ -187,6 +188,36 @@ python (10)gen_contrastive_learning_data.py --link_prediction_model path/to/link
 **Example**:
 ```bash
 python (11)train_contrastive_bert.py --train_corpus_paths path/to/train_corpus.pkl --val_corpus_path path/to/val_corpus.pkl --tokenizer_path path/to/tokenizer --pretrained_model_path path/to/pretrained_bert --output_dir path/to/output_model
+```
+
+## Downstream Task Finetuning
+To evaluate FARM on MoleculeNet tasks, the workflow is structured as follows:
+1. Scaffold split to divide the dataset into train, validation, and test sets.
+2. Convert SMILES to FG-enhanced SMILES
+3. Extract FARM representations for molecules from the datasets.
+4. Train a classifier or regressor on the extracted FARM representations to perform the downstream task.
+
+### Scaffold split:
+To perform the scaffold split, run `(0)scaffold_split.py` with arguments:
+- `input_csv`: Path to the input CSV file containing the dataset (e.g., `BBBP.csv`). *Note:* The CSV file must contain columns `'SMILES'` and `'label'`. Modify the column names if necessary before running this script.
+- `train_output`, `val_output`, `test_output`: Path to save the training, validation and test sets as CSV files
+**Example**:
+```bash
+python scaffold_split.py --input_csv BBBP.csv --train_output BBBP_train.csv --val_output BBBP_val.csv --test_output BBBP_test.csv
+```
+This will split the `BBBP.csv` dataset into scaffold-based training, validation, and test sets.
+
+### Convert SMILES in train, validation and test sets to FG-enhanced SMILES
+See [Step 2: Generate FG-Enhanced SMILES](#step-2:-generate-fg-enhanced-smiles)
+
+### Extract FARM Representations and Train Classifier/Regressor
+After splitting the dataset, the next step is to extract the FARM representations and train either a classifier or regressor depending on the task.
+Run `(1)classifier.py` or `(2)regressor.py` with arguments:
+- `train_path`, `val_path`, `test_path`: Path to training, validation and test FG-enhanced SMILES sets (pickle files, obtained from the last step).
+- `checkpoint_path`: Directory to save the trained model checkpoints.
+**Example**:
+```bash
+python classifier.py --train_path path/to/train.pkl --val_path path/to/val.pkl --test_path path/to/test.pkl --checkpoint_path path/to/save/checkpoint
 ```
 
 ## Acknowledgments
