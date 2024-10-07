@@ -17,8 +17,8 @@ The repository is organized into the following directories:
 ### Directories Description
 
 - **data/**: Contains scripts for downloading datasets.
-  - `download_big_corpus.py`: Script to download a large molecular corpus.
-  - `download_small_corpus.py`: Script to download a smaller molecular corpus.
+  - `download_big_corpus.py`: Script to download a 200M FM-enhanced SMILES corpus.
+  - `download_small_corpus.py`: Script to download a 20M FM-enhanced SMILES corpus.
 
 - **downstream_tasks/**: Contains scripts for downstream tasks that utilize FARM molecular representation.
   - `(0)scaffold_split.py`: Script for splitting data based on scaffolds.
