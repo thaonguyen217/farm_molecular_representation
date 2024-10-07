@@ -1,6 +1,4 @@
 import argparse
-import pickle
-import torch
 from tokenizers import Tokenizer, models, pre_tokenizers, trainers
 from transformers import PreTrainedTokenizerFast
 

@@ -2,7 +2,6 @@ import pickle
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from tqdm import tqdm
 from datasets import Dataset
 from torch.utils.data import DataLoader
 from transformers import PreTrainedTokenizerFast, BertModel, Trainer, TrainingArguments

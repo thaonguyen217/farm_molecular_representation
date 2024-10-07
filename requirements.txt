@@ -1,0 +1,12 @@
+datasets==2.11.0
+numpy==1.23.5
+pandas==1.5.3
+deepchem==2.6.0
+rdkit-pypi==2023.03.5.0
+torch==2.0.1
+torch-geometric==2.2.0
+tqdm==4.65.0
+scikit-learn==1.2.2
+transformers==4.29.2
+tokenizers==0.13.3
+networkx==3.1
