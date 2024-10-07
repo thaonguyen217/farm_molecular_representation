@@ -1,6 +1,6 @@
-# FARM for Molecular Representaion
+# FARM for Molecular Representation
 Source code for the paper **FARM: Functional Group-Aware Representations for Small Molecules** [paper](https://arxiv.org/pdf/2410.02082) [webpage](https://thaonguyen217.github.io/farm/)
-![FARM model](images/main.png)
+![FARM model](./images/main.png)
 
 ## Structure of the Repository
 
