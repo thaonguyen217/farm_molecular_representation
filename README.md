@@ -53,17 +53,17 @@ To clean the dataset by removing invalid SMILES and converting SMILES to canonic
 - `save_smiles_path`: The path to save the cleaned SMILES CSV file.
 **Example**:
 ```bash
-python clean_smiles.py --csv_data_path path/to/input.csv --save_smiles_path path/to/cleaned_smiles.csv
+python (1)clean_smiles.py --csv_data_path path/to/input.csv --save_smiles_path path/to/cleaned_smiles.csv
 ```
 *Note: The input CSV file must contain a column named "SMILES".*
 
 ### Step 2: Generate FG-Enhanced SMILES
-To generate FG-enhanced SMILES, run the `gen_FG_enhanced_SMILES.py` script. This script requires:
+To generate FG-enhanced SMILES, run the `(2)gen_FG_enhanced_SMILES.py` script. This script requires:
 - `csv_path`: The path to the input CSV file containing molecule data.
 - `save_path`: The path to save the output pickle file.
 **Example**:
 ```bash
-python gen_FG_enhanced_SMILES.py --csv_path path/to/cleaned_smiles.csv --save_path path/to/fg_enhanced_smiles.pkl
+python (2)gen_FG_enhanced_SMILES.py --csv_path path/to/cleaned_smiles.csv --save_path path/to/fg_enhanced_smiles.pkl
 ```
 
 ### Step 3: Download Model and Extract Molecular Embeddings
@@ -97,22 +97,22 @@ This section guides you step by step to train a baseline BERT model that uses ma
 *Note: You can also download a pre-collected dataset by running `data/download_small_corpus.py` or `data/download_big_corpus.py`. These corpora contain ~20M and 200M FG-enhanced SMILES, respectively. For more details about the collected dataset, please refer to our [paper](https://arxiv.org/pdf/2410.02082).*
 
 ### Step 3: Train a Tokenizer for FG-Enhanced SMILES
-Train a tokenizer for FG-enhanced SMILES by running `train_tokenizer.py`. This requires two arguments:
+Train a tokenizer for FG-enhanced SMILES by running `(3)train_tokenizer.py`. This requires two arguments:
 - `corpus_path`: The path to the text corpus generated from Step 2 for training the tokenizer.
 - `save_path`: The directory to save the trained tokenizer.
 **Example**:
 ```bash
-python train_tokenizer.py --corpus_path path/to/fg_enhanced_corpus.txt --save_path path/to/tokenizer_directory
+python (3)train_tokenizer.py --corpus_path path/to/fg_enhanced_corpus.txt --save_path path/to/tokenizer_directory
 ```
 
 ### Train a BERT Model for Masked Language Modeling
-Train a `BertForMaskedLM` model by running `train_bert.py` with the following arguments:
+Train a `BertForMaskedLM` model by running `(4)train_bert.py` with the following arguments:
 - `train_corpus_path` and `val_corpus_path`: Path to the training and validation corpora (obtained from Step 2).
 - `tokenizer_path`: Path to the tokenizer (obtained from Step 3).
 - `pretrained_model`: Path to the pretrained BERT model.
 **Example**:
 ```bash
-python train_bert.py --train_corpus_path path/to/train_corpus.txt --val_corpus_path path/to/val_corpus.txt --tokenizer_path path/to/tokenizer --pretrained_model path/to/pretrained_bert
+python (4)train_bert.py --train_corpus_path path/to/train_corpus.txt --val_corpus_path path/to/val_corpus.txt --tokenizer_path path/to/tokenizer --pretrained_model path/to/pretrained_bert
 ```
 
 
@@ -124,66 +124,70 @@ Training FARM from scratch involves two major steps:
 ### Step 1: Molecular Structure Learning
 This step includes smaller tasks:
 #### 1.1 Clean SMILES and generate FG-enhanced SMILES (as presented above).
-#### 1.2 Generate a vocabulary of all functional groups by running `gen_FG_vocab.py` with the following arguments:
+#### 1.2 Generate a vocabulary of all functional groups by running `(5)gen_FG_vocab.py` with the following arguments:
 - `input_csv`: Path to the input CSV file containing a column 'SMILES'.
 - `output_pkl`: Path to the output pickle file for storing the functional groups vocabulary.
 **Example**:
 ```bash
-python gen_FG_vocab.py --input_csv path/to/molecules.csv --output_pkl path/to/fg_vocab.pkl
+python (5)gen_FG_vocab.py --input_csv path/to/molecules.csv --output_pkl path/to/fg_vocab.pkl
 ```
 
-#### 1.3 Generate the functional group knowledge graph (FGKG) by running `gen_FG_KG.py` with these arguments:
+#### 1.3 Generate the functional group knowledge graph (FGKG) by running `(6)gen_FG_KG.py` with these arguments:
 - `vocab_path`: Path to the FG vocabulary file (obtained from the last step).
 - `FGKG_path`: Path to save the FG knowledge graph (as a pickle file).
 **Example**:
 ```bash
-python gen_FG_KG.py --vocab_path path/to/fg_vocab.pkl --FGKG_path path/to/fgkg.pkl
+python (6)gen_FG_KG.py --vocab_path path/to/fg_vocab.pkl --FGKG_path path/to/fgkg.pkl
 ```
 
-#### 1.4 Train the knowledge graph embedding model (KGE) to learn representations of functional groups by running `train_FG_KGE.py`:
+#### 1.4 Train the knowledge graph embedding model (KGE) to learn representations of functional groups by running `(7)train_FG_KGE.py`:
 - `FGKG_path`: Path to the FG knowledge graph (obtained from the last step).
 - `checkpoint`: Path to save model checkpoints.
 - `feature_dict_path`: Path to save the `feature: FG_embedding` dictionary (as a pickle file).
 **Example**:
 ```bash
-python train_FG_KGE.py --FGKG_path path/to/fgkg.pkl --checkpoint path/to/checkpoints --feature_dict_path path/to/feature_dict.pkl
+python (7)train_FG_KGE.py --FGKG_path path/to/fgkg.pkl --checkpoint path/to/checkpoints --feature_dict_path path/to/feature_dict.pkl
 ```
 
-#### 1.5 Generate a functional group molecular graph by running `gen_FG_molecular_graph.py`:
+#### 1.5 Generate a functional group molecular graph by running `(8)gen_FG_molecular_graph.py`:
 - `csv_path`: Path to the input CSV file containing SMILES.
 - `feature_path`: Path to the KGE functional group embedding file (obtained from the last step).
 - `save_path`: Path to save the processed graph structure data.
 **Example**:
 ```bash
-python gen_FG_molecular_graph.py --csv_path path/to/molecules.csv --feature_path path/to/fg_embeddings.pkl --save_path path/to/fg_molecular_graph.pkl
+python (8)gen_FG_molecular_graph.py --csv_path path/to/molecules.csv --feature_path path/to/fg_embeddings.pkl --save_path path/to/fg_molecular_graph.pkl
 ```
 
-#### 1.6 Train a GCN model for link prediction using self-supervised learning by running `train_GCN_link_prediction.py`:
+#### 1.6 Train a GCN model for link prediction using self-supervised learning by running `(9)train_GCN_link_prediction.py`:
 - `data_path`: Path to the FG molecular graph dataset (pickle file obtained from the last step).
 - `checkpoint_path`: Path to save model checkpoints.
 **Example**:
 ```bash
-python train_GCN_link_prediction.py --data_path path/to/fg_molecular_graph.pkl --checkpoint_path path/to/checkpoints.pth
+python (9)train_GCN_link_prediction.py --data_path path/to/fg_molecular_graph.pkl --checkpoint_path path/to/checkpoints
 ```
 The molecular embeddings learned by this model capture *structural information* about how functional groups are bonded within a molecule.
 
 ### Step 2: Contrastive Learning to Align Atom-Level and Structure-Level Representations
 #### 2.1 Generate data for contrastive learning
-Each data point for contrastive learning is a triplet `(FG-enhanced SMILES, pos, neg)`. Here, `pos` is the corresponding FG graph embedding of the SMILES, and `neg` is an embedding of augmented FG graph of the SMILES. To generate the triplet data, run `gen_contrastive_learning_data.py`:
+Each data point for contrastive learning is a triplet `(FG-enhanced SMILES, pos, neg)`. Here, `pos` is the corresponding FG graph embedding of the SMILES, and `neg` is an embedding of augmented FG graph of the SMILES. To generate the triplet data, run `(10)gen_contrastive_learning_data.py`:
 - `link_prediction_model`: Path to the link prediction model checkpoint.
 - `fgkg_embedding_path`: Path to the feature dictionary pickle file (obtained from the KGE model).
 - `corpus_path`: Path to the input corpus CSV file.
 - `save_path`: Path to save the output pickle file for training the contrastive BERT model.
 **Example**:
 ```bash
-python gen_contrastive_learning_data.py --link_prediction_model path/to/link_prediction_model --fgkg_embedding_path path/to/feature_dict.pkl --corpus_path path/to/corpus.csv --save_path path/to/contrastive_data.pkl
+python (10)gen_contrastive_learning_data.py --link_prediction_model path/to/link_prediction_model --fgkg_embedding_path path/to/feature_dict.pkl --corpus_path path/to/corpus.csv --save_path path/to/contrastive_data.pkl
 ```
 
-#### 2.2 Train the Contrastive BERT model by running `train_contrastive_bert.py`:
+#### 2.2 Train the Contrastive BERT model by running `(11)train_contrastive_bert.py`:
 - `train_corpus_path` and `val_corpus_path`: Path to the training and validation corpora (obtained from the last step).
 - `tokenizer_path`: Path to the FM-enhanced SMILES tokenizer.
 - `pretrained_model_path`: Path to the pretrained BERT model (optional).
 - `output_dir`: Directory to save the output model and tokenizer.
+**Example**:
+```bash
+python (11)train_contrastive_bert.py --train_corpus_paths path/to/train_corpus.pkl --val_corpus_path path/to/val_corpus.pkl --tokenizer_path path/to/tokenizer --pretrained_model_path path/to/pretrained_bert --output_dir path/to/output_model
+```
 
 ## Acknowledgments
 This research is based upon work supported by the Molecule Maker Lab Institute: an AI research institute program supported by NSF under award *No. 2019897*.
