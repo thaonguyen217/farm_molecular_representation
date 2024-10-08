@@ -106,7 +106,7 @@ Train a tokenizer for FG-enhanced SMILES by running `(3)train_tokenizer.py`. Thi
 python (3)train_tokenizer.py --corpus_path path/to/fg_enhanced_corpus.txt --save_path path/to/tokenizer_directory
 ```
 
-### Train a BERT Model for Masked Language Modeling
+### Step 4: Train a BERT Model for Masked Language Modeling
 Train a `BertForMaskedLM` model by running `(4)train_bert.py` with the following arguments:
 - `train_corpus_path` and `val_corpus_path`: Path to the training and validation corpora (obtained from Step 2).
 - `tokenizer_path`: Path to the tokenizer (obtained from Step 3).
