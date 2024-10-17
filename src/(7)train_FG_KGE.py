@@ -29,28 +29,22 @@ class ComplEx(nn.Module):
     def __init__(self, num_entities, num_relations, embedding_dim):
         super(ComplEx, self).__init__()
         
-        # Initialize entity and relation embeddings
+        # Entity embeddings
         self.ent_real = nn.Embedding(num_entities, embedding_dim)
         self.ent_imag = nn.Embedding(num_entities, embedding_dim)
+        
+        # Relation embeddings
         self.rel_real = nn.Embedding(num_relations, embedding_dim)
         self.rel_imag = nn.Embedding(num_relations, embedding_dim)
         
-        # Initialize embeddings using Xavier uniform distribution
+        # Initialize embeddings
         nn.init.xavier_uniform_(self.ent_real.weight)
         nn.init.xavier_uniform_(self.ent_imag.weight)
         nn.init.xavier_uniform_(self.rel_real.weight)
         nn.init.xavier_uniform_(self.rel_imag.weight)
 
     def forward(self, triples):
-        """
-        Compute the ComplEx scores for given triples.
-
-        Parameters:
-        - triples (torch.Tensor): A tensor containing triples of (head, relation, tail).
-
-        Returns:
-        - score (torch.Tensor): Computed scores for the triples.
-        """
+        # Get head, relation, tail from triples
         h, r, t = triples[:, 0], triples[:, 1], triples[:, 2]
         
         # Get embeddings
@@ -69,17 +63,36 @@ class ComplEx(nn.Module):
         return score
 
     def loss(self, pos_score, neg_score):
-        """
-        Compute the loss using sigmoid cross entropy.
-
-        Parameters:
-        - pos_score (torch.Tensor): Scores for positive triples.
-        - neg_score (torch.Tensor): Scores for negative triples.
-
-        Returns:
-        - loss (torch.Tensor): Computed loss.
-        """
+        # Apply sigmoid cross entropy loss
         return -torch.mean(F.logsigmoid(pos_score) + F.logsigmoid(-neg_score))
+
+    def get_entity_embedding(self, entity_id):
+        """
+        Returns the real and imaginary parts of the entity embedding
+        given the entity ID.
+        """
+        real_part = self.ent_real(entity_id)
+        imag_part = self.ent_imag(entity_id)
+        return real_part, imag_part
+
+    def get_relation_embedding(self, relation_id):
+        """
+        Returns the real and imaginary parts of the relation embedding
+        given the relation ID.
+        """
+        real_part = self.rel_real(relation_id)
+        imag_part = self.rel_imag(relation_id)
+        return real_part, imag_part
+    
+def negative_sampling(triples, num_entities):
+    # Create negative samples by corrupting the head or tail
+    neg_triples = triples.clone()
+    for i in range(triples.size(0)):
+        if random.random() < 0.5:
+            neg_triples[i, 0] = random.randint(0, num_entities - 1)  # Replace head
+        else:
+            neg_triples[i, 2] = random.randint(0, num_entities - 1)  # Replace tail
+    return neg_triples
 
 def negative_sampling(triples, num_entities):
     """
