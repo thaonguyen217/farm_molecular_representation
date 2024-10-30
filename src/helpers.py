@@ -1459,7 +1459,7 @@ def get_new_smiles_rep(mol):
             feature_idx[idx] = ' ' + feature + ' '
 
         smiles = m2s(mol)
-        smiles = smiles.replace('-9', '0')
+        # smiles = smiles.replace('-9', '0')
         smiles = re.sub(r'\[.*?:(\d+)\]', replace_pattern, smiles)
         smiles = re.sub(r'\s+', ' ', smiles)
         smiles_list = []
