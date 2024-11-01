@@ -1471,5 +1471,4 @@ def get_new_smiles_rep(mol):
                 smiles_list.append(t + ' ')
 
         new_smiles = ''.join(smiles_list).strip()
-        new_smiles = feature_idx[-9].strip() + ' ' + new_smiles
         return new_smiles
