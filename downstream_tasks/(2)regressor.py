@@ -221,7 +221,8 @@ if __name__ == "__main__":
     y_test = (Y_test * y_std + y_mean).cpu().numpy()
 
     # Calculate and print test metrics
-    print('esol')
-    print("Test RMSE:", mean_squared_error(y_test, test_predictions, squared=False))
-    print("Test MAE:", mean_absolute_error(y_test, test_predictions))
-    print("Test R2:", r2_score(y_test, test_predictions))
+    print("Test RMSE: {:.4f}, MAE: {:.4f}, Test R2: {:.4f}".format(
+    mean_squared_error(y_test, test_predictions, squared=False),
+    mean_absolute_error(y_test, test_predictions),
+    r2_score(y_test, test_predictions)
+    ))
