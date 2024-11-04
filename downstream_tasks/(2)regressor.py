@@ -210,12 +210,18 @@ if __name__ == "__main__":
         for X_test_batch, _ in test_loader:
             X_test_batch = X_test_batch.to(device)
             test_outputs = model(X_test_batch).squeeze()
-            test_predictions.append(test_outputs.cpu().numpy())
+            test_predictions.append(test_outputs.cpu().numpy())  # Collect predictions as NumPy arrays
+
+    test_predictions = np.array(test_predictions).flatten()
+
+    y_std = y_std.cpu().numpy()
+    y_mean = y_mean.cpu().numpy()
+    test_predictions = test_predictions * y_std + y_mean
+
+    y_test = (Y_test * y_std + y_mean).cpu().numpy()
 
     # Calculate and print test metrics
-    y_test = Y_test * y_std + y_mean
-    test_predictions = np.array(test_predictions).flatten() * y_std + y_mean
-
+    print('esol')
     print("Test RMSE:", mean_squared_error(y_test, test_predictions, squared=False))
     print("Test MAE:", mean_absolute_error(y_test, test_predictions))
     print("Test R2:", r2_score(y_test, test_predictions))
