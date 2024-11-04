@@ -103,9 +103,30 @@ if __name__ == "__main__":
     Y_test = torch.from_numpy(np.array(test_data['y'], dtype=np.float32))
 
     # Generate input features from SMILES strings
-    X_train = [model(**tokenizer(sm, return_tensors='pt').to(device), output_hidden_states=True).hidden_states[-1][0] for sm in tqdm(SMILES_train, desc='Prepare training data')]
-    X_val = [model(**tokenizer(sm, return_tensors='pt').to(device), output_hidden_states=True).hidden_states[-1][0] for sm in tqdm(SMILES_val, desc='Prepare validation data')]
-    X_test = [model(**tokenizer(sm, return_tensors='pt').to(device), output_hidden_states=True).hidden_states[-1][0] for sm in tqdm(SMILES_test, desc='Prepare test data')]
+    # Load inputs
+    X_train = []
+    for sm in tqdm(SMILES_train, desc='Loading training data'):
+        inputs = tokenizer(sm, return_tensors='pt').to(device)
+        with torch.no_grad():
+            outputs = model(**inputs, output_hidden_states=True)
+            last_hidden_states = outputs.hidden_states[-1][0]
+            X_train.append(last_hidden_states)
+
+    X_val = []
+    for sm in tqdm(SMILES_val, desc='Loading validation data'):
+        inputs = tokenizer(sm, return_tensors='pt').to(device)
+        with torch.no_grad():
+            outputs = model(**inputs, output_hidden_states=True)
+            last_hidden_states = outputs.hidden_states[-1][0]
+            X_val.append(last_hidden_states)
+
+    X_test = []
+    for sm in tqdm(SMILES_test, desc='Loading test data'):
+        inputs = tokenizer(sm, return_tensors='pt').to(device)
+        with torch.no_grad():
+            outputs = model(**inputs, output_hidden_states=True)
+            last_hidden_states = outputs.hidden_states[-1][0]
+            X_test.append(last_hidden_states)
 
     # Create DataLoader for training and validation
     dataset = SequenceDataset(X_train, Y_train)
@@ -122,10 +143,9 @@ if __name__ == "__main__":
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.num_epochs // 3, eta_min=1e-5)
 
     best_score = 0
-    model.train()
-    
     # Training loop
     for epoch in range(args.num_epochs):
+        model.train()
         total_loss = 0
         all_labels = []
         all_preds = []
