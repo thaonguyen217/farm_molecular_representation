@@ -9,9 +9,10 @@ import warnings
 # Suppress warnings
 warnings.filterwarnings("ignore")
 
-def read_data(input_csv_path):
+def read_data(input_csv_path, random_seed=98):
     """Read the CSV file and extract SMILES and labels."""
     df = pd.read_csv(input_csv_path)
+    df = df.sample(frac=1, random_state=random_seed).reset_index(drop=True)
     print("Columns in the DataFrame:", df.columns)
     SMILES = []
     LABELS = []
@@ -69,7 +70,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Read data
-    SMILES, LABELS = read_data(args.input_csv)
+    SMILES, LABELS = read_data(args.input_csv, random_seed=args.seed)
 
     # Shuffle the SMILES and labels
     SMILES, LABELS = shuffle(SMILES, LABELS, random_state=args.seed)
