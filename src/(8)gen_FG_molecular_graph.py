@@ -55,7 +55,7 @@ def graph_data(smiles, feature_dict):
     
     # Assign atom features to the feature matrix
     for idx, value in new_structure.items():
-        atom_features[idx, :] = value['fg_feature']
+        atom_features[idx, :] = value['fg_feature'].detach().numpy()
 
     # Initialize edge index matrix
     edge_index = torch.zeros((2, num_edges), dtype=torch.long)

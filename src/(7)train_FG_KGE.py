@@ -230,4 +230,4 @@ if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     feature_dict = train(args.FGKG_path, args.checkpoint, device, args.epochs, args.embedding_dim, args.lr, args.batch_size)
     with open(args.feature_dict_path, 'wb') as f:
-        pickle.dump(feature_dict)
+        pickle.dump(feature_dict, f)

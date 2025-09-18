@@ -23,20 +23,20 @@ def solubility_cal(mol):
     return solubility
 
 # Define functional groups for hydrogen bond donors and acceptors
-hydrogen_bond_donor = [
+HYDROGEN_BOND_DONOR = {
     'hydroxyl', 'hydroperoxy', 'primary_amine', 'secondary_amine', 
     'hydrazone', 'primary_ketimine', 'secondary_ketimine', 'primary_aldimine',
     'amide', 'sulfhydryl', 'sulfonic_acid', 'thiolester', 'hemiacetal', 
     'hemiketal', 'carboxyl', 'aldoxime', 'ketoxime'
-]
+}
 
-hydrogen_bond_acceptor = [
+HYDROGEN_BOND_ACCEPTOR = {
     'ether', 'peroxy', 'haloformyl', 'ketone', 'aldehyde', 'carboxylate', 
     'carboxyl', 'ester', 'ketal', 'carbonate_ester', 'carboxylic_anhydride',
     'primary_amine', 'secondary_amine', 'tertiary_amine', '4_ammonium_ion', 
     'hydrazone', 'primary_ketimine', 'secondary_ketimine', 'primary_aldimine', 
     'amide', 'sulfhydryl', 'sulfonic_acid', 'thiolester', 'aldoxime', 'ketoxime'
-]
+}
 
 # Generate node features for each molecule based on SMILES string
 def gen_node_feature(sm):
@@ -66,9 +66,9 @@ def gen_node_feature(sm):
         if prop != '':
             functional_group.add(prop)
     
-    if functional_group in hydrogen_bond_donor:
+    if any(fg in HYDROGEN_BOND_DONOR for fg in functional_group):
         is_hydrogen_bond_donor = 1
-    if functional_group in hydrogen_bond_acceptor:
+    if any(fg in HYDROGEN_BOND_ACCEPTOR for fg in functional_group):
         is_hydrogen_bond_acceptor = 1
 
     for bond in mol.GetBonds():
